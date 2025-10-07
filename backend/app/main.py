@@ -5,6 +5,3 @@ app = FastAPI(
     description="Fully features banking API built with FastAPI",
 )
 
-@app.get("/")
-def home():
-    return {"message": "Welcome to the NextGen Bank API"}
