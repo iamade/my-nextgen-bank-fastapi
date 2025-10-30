@@ -18,6 +18,7 @@ class SecurityQuestionsSchema(str, Enum):
             cls.FAVORITE_COLOUR: "What is your favorite color?",
             cls.BIRTH_CITY: "What is the name of the city you were born in"
         }
+        return descriptions.get(value, "Unknown security question")
         
 class AccountStatusSchema(str, Enum):
     ACTIVE = 'active'
@@ -53,7 +54,7 @@ class UserCreateSchema(BaseUserSchema):
     
     @field_validator("confirm_password")
     def validate_confirm_password(cls,v,values):
-        if "password" in values.data and v!= values.data["passeord"]:
+        if "password" in values.data and v!= values.data["password"]:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail={

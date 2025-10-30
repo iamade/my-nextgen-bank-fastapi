@@ -28,7 +28,9 @@ def generate_username()-> str:
     words = bank_name.split()
     prefix = "".join([word[0] for word in words]).upper()
     remaining_length = 12 - len(prefix) - 1
-    random_string = "".join(random.choice(string.ascii_uppercase + string.digits, k=remaining_length))
+    random_string = "".join(
+        random.choices(string.ascii_uppercase + string.digits,k=remaining_length)
+        )
     username = f"{prefix}-{random_string}"
     
     return username
