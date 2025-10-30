@@ -50,7 +50,7 @@ def create_activation_token(id: uuid.UUID) -> str:
     
 def create_jwt_token(id: uuid.UUID, type: str = settings.COOKIE_ACCESS_NAME)-> str:
     expire_minutes = (
-        settings.JWT_ACCESS_TOKEN_EXIPRATION_MINUTES
+        settings.JWT_ACCESS_TOKEN_EXPIRATION_MINUTES
         if type == settings.COOKIE_ACCESS_NAME
         else settings.JWT_REFRESH_TOKEN_EXPIRATION_DAYS
     )
@@ -73,7 +73,7 @@ def set_auth_cookies(
     }
     access_cookie_settings = cookie_settings.copy()
     access_cookie_settings["max_age"]=(
-        settings.JWT_ACCESS_TOKEN_EXIPRATION_MINUTES * 60
+        settings.JWT_ACCESS_TOKEN_EXPIRATION_MINUTES * 60
     )
     response.set_cookie(
         settings.COOKIE_ACCESS_NAME,
@@ -84,10 +84,7 @@ def set_auth_cookies(
     if refresh_token:
         refresh_cookie_settings = cookie_settings.copy()
         refresh_cookie_settings["max_age"] =(
-            settings.JWT_REFRESH_TOKEN_EXPIRATION_DAYS
-            * 24
-            * 60
-            * 60
+            settings.JWT_REFRESH_TOKEN_EXPIRATION_DAYS * 24 * 60 * 60
         )
         response.set_cookie(
             settings.COOKIE_REFRESH_NAME,
@@ -98,7 +95,7 @@ def set_auth_cookies(
     logged_in_cookie_settings = cookie_settings.copy()
     logged_in_cookie_settings["httponly"] = False
     logged_in_cookie_settings["max_age"] = (
-        settings.JWT_ACCESS_TOKEN_EXIPRATION_MINUTES * 60
+        settings.JWT_ACCESS_TOKEN_EXPIRATION_MINUTES * 60
     )
     
     response.set_cookie(
