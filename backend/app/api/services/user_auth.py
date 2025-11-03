@@ -44,8 +44,9 @@ class UserAuthService:
         self, id: uuid.UUID, session: AsyncSession, include_inactive: bool = False,
     ) -> User | None:
         statement = select(User).where(User.id == id)
+        
         if not include_inactive:
-             statement = statement.where(User.is_active == True)
+             statement = statement.where(User.is_active)
         result = await session.exec(statement)
         user = result.first()
         return user
@@ -137,7 +138,7 @@ class UserAuthService:
                 try:
                     await send_login_otp_email(user.email, otp)
                     logger.info(f"OTP sent to {user.email} successfully")
-                
+                    return True, otp
                 except Exception as e:
                     logger.error(
                         f"Failed to send OTP email (attempt {attempt + 1}): {e}"
